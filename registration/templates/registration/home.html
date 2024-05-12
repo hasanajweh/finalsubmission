@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'Static/registration/homestyle.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1>Welcome to our Course Registration System!</h1>
+    <p>Explore a wide variety of courses offered by distinguished instructors and take the next step in your educational journey with us.</p>
+</div>
+
+<form action="{% url 'course_search' %}" method="get" class="search-form">
+    {% csrf_token %}
+    <input type="text" name="query" placeholder="Enter the instructor name, course name or no." required class="form-control">
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message.message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<!-- Notifications -->
+{% for notification in notifications %}
+    <div class="alert alert-info" role="alert">
+        {{ notification.message }}
+        {% if notification.deadline_date %}
+            <br>Last day to act: {{ notification.deadline_date|date:"F d, Y" }}.
+        {% endif %}
+    </div>
+{% endfor %}
+{% endblock %}

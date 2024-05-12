@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<canvas id="popularityChart"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    var ctx = document.getElementById('popularityChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',  // or 'line', 'pie', etc.
+        data: {
+            labels: {{ labels|safe }},
+            datasets: [{
+                label: 'Course Popularity',
+                data: {{ data|safe }},
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message.message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
