@@ -1,3 +1,4 @@
+
 {% extends 'registration/base.html' %}
 {% load static %}
 {% block title %}Course Details{% endblock %}
@@ -43,13 +44,7 @@
 {% endif %}
 
 </div>
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message.message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+
 
 
 {% endblock %}

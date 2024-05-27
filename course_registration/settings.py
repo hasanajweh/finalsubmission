@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-b3jux8p1dyq)vm-nm@ojw^#p+k8!i3_o&#+*@9(pg0#na2)+$$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
-
+ALLOWED_HOSTS = ['127.0.0.1','localhost']
 
 # Application definition
 
@@ -72,7 +71,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'course_registration.wsgi.application'
-
+AUTH_USER_MODEL = 'registration.CustomUser'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -137,6 +136,7 @@ AUTH_USER_MODEL = 'registration.CustomUser'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'user_login'
 
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 DEBUG = True

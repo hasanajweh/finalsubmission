@@ -7,6 +7,7 @@ from .models import Course, CourseSchedule, StudentRegistration
 from django.contrib import messages
 from django.db.models import Q
 from .models import Notification
+from .forms import UserProfileForm
 
 # User sign-up
 def signup(request):
@@ -53,8 +54,21 @@ def custom_logout(request):
 @login_required
 def course_search(request):
     query = request.GET.get('query', '')
-    courses = Course.objects.filter(Q(code__icontains=query) | Q(name__icontains=query) | Q(instructor__icontains=query)) if query else Course.objects.none()
-    return render(request, 'registration/course_search.html', {'courses': courses, 'query': query})
+    student = request.user.student
+    completed_courses = student.completed_courses.all()
+    if query:
+        courses = Course.objects.filter(
+            Q(code__icontains=query) | 
+            Q(name__icontains=query) | 
+            Q(instructor__icontains=query)
+        ).exclude(id__in=completed_courses.values('id'))
+    else:
+        courses = Course.objects.none()
+
+    return render(request, 'registration/course_search.html', {
+        'courses': courses,
+        'query': query
+    })
 
 # Course detail
 def course_detail(request, course_id):
@@ -84,17 +98,17 @@ def course_schedule(request, course_id):
 @login_required
 def register_course(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
-    student = request.user.student  # Make sure the student object is properly linked with User
+    student = request.user.student  
 
     if request.method == 'POST':
-        # Check if the course is already registered
+        # already registered
         if StudentRegistration.objects.filter(student=student, course=course).exists():
             messages.error(request, "You are already registered for this course.")
         else:
-            # Check for available spots
+            # available spots
             if course.available_spots > 0:
                 StudentRegistration.objects.create(student=student, course=course)
-                course.available_spots -= 1  # Decrement the spot
+                course.available_spots -= 1 
                 course.save()
                 messages.success(request, "Successfully registered for the course.")
                 return redirect('view_schedule')
@@ -110,7 +124,6 @@ def view_schedule(request):
     student = request.user.student
     registrations = StudentRegistration.objects.filter(student=student).select_related('course', 'course__courseschedule')
 
-    # Here, we assume each course must have a linked courseschedule. Adjust logic as needed.
     courses_with_schedules = [{
         'course': registration.course,
         'schedule': registration.course.courseschedule
@@ -146,3 +159,26 @@ def available_courses(request):
 def home(request):
     notifications = Notification.objects.filter(active=True).order_by('-date_created')
     return render(request, 'home.html', {'notifications': notifications})
+
+
+
+@login_required
+def profile(request):
+    user = request.user
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile picture was successfully updated!')
+            return redirect('profile')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = UserProfileForm(instance=user)
+
+    completed_courses = user.student.completed_courses.all()
+
+    return render(request, 'registration/profile.html', {
+        'form': form,
+        'completed_courses': completed_courses,
+    })

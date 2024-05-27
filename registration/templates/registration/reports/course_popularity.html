@@ -6,7 +6,7 @@
 <script>
     var ctx = document.getElementById('popularityChart').getContext('2d');
     var chart = new Chart(ctx, {
-        type: 'bar',  // or 'line', 'pie', etc.
+        type: 'bar', 
         data: {
             labels: {{ labels|safe }},
             datasets: [{
@@ -28,11 +28,6 @@
         }
     });
 </script>
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message.message }}</li>
-    {% endfor %}
-</ul>
+
 {% endif %}
 {% endblock %}

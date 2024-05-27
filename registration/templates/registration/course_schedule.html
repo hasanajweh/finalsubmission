@@ -9,6 +9,7 @@
         <p><strong>Time:</strong> {{ schedule.startTime }} - {{ schedule.endTime }}</p>
         <p><strong>Room:</strong> {{ schedule.roomNo }}</p>
         <p><strong>Prerequisites:</strong> {{ course.prerequisites }}</p>
+        <p><strong>Description:</strong> {{ course.description }}</p>
         <p><strong>Available Spots:</strong> {{ available_spots }}</p>
         {% if user.is_authenticated %}
         <form action="{% url 'register_course' course.id %}" method="post">

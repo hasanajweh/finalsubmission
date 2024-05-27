@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch(`/registration/course/${courseId}/register/`, {
                 method: 'POST',
                 headers: {
-                    'X-CSRFToken': getCookie('csrftoken'), // Function to get CSRF token from cookies
+                    'X-CSRFToken': getCookie('csrftoken'), 
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 'course_id': courseId })
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 alert(data.message);
                 if(data.success) {
-                    window.location.reload(); // Reload the page to update the schedule or any other content
+                    window.location.reload(); 
                 }
             })
             .catch(error => {

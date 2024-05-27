@@ -1,8 +1,8 @@
 html, body {
     height: 100%;
     margin: 0;
-    width: 100%; /* Ensure full width */
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    width: 100%; 
+    overflow-x: hidden; 
     background: none !important;
 }
 
@@ -15,9 +15,9 @@ html, body {
     background-image: url('https://i.ibb.co/RQb7GQQ/baim-hanif-p-YWu-OMhtc6k-unsplash.jpg');
     background-size: cover;
     background-position: center;
-    height: 90vh; /* Adjusted height */
-    color: white; /* Ensure text color is white */
-    padding-top: 50px; /* Adjust if navbar overlaps content */
+    height: 90vh; 
+    color: white; 
+    padding-top: 50px; 
 }
 
 .hero-section h1 {
@@ -32,7 +32,7 @@ html, body {
 
 .search-form {
     position: absolute;
-    top: 50%; /* Center vertically in hero section */
+    top: 50%; 
     left: 50%;
     transform: translate(-50%, -50%);
     width: 200px;
@@ -43,7 +43,7 @@ html, body {
 .search-form input[type="text"],
 .search-form button {
     height: 40px;
-    border: 2px solid #fff; /* Visible borders */
+    border: 2px solid #fff; 
     background: rgba(255,255,255,0.5);
     padding: 5px 10px;
 }
@@ -59,12 +59,12 @@ html, body {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Improved visibility */
+    background: rgba(0, 0, 0, 0.8); 
     color: white;
     text-align: center;
     padding: 10px 0;
     font-size: 16px;
-    z-index: 1000; /* Ensure it's above other content */
+    z-index: 1000; 
 }
 
 .footer {
@@ -74,5 +74,5 @@ html, body {
     color: white;
     text-align: center;
     line-height: 60px;
-    margin-top: auto; /* Push to bottom */
+    margin-top: auto; 
 }
