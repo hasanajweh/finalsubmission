@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'registration/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card profile-card">
+                <div class="card-body text-center">
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" class="rounded-circle img-fluid profile-picture" alt="Profile Picture">
+                    {% else %}
+                        <img src="{% static 'registration/default_profile_picture.webp' %}" class="rounded-circle img-fluid profile-picture" alt="Profile Picture">
+                    {% endif %}
+                    <form method="post" enctype="multipart/form-data" class="mt-3">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.profile_picture }}
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Update Picture</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card profile-card">
+                <div class="card-body">
+                    <h2 class="card-title">{{ user.username }}</h2>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <h3>Completed Courses</h3>
+                    <ul class="list-group list-group-flush">
+                        {% for course in completed_courses %}
+                            <li class="list-group-item">{{ course.name }} ({{ course.code }})</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
